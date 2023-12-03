@@ -1,20 +1,36 @@
  let inputBtn = document.getElementById("input-btn")
  const inputEl = document.getElementById("input-el")
- const myLeads = []
+ let myLeads = []
  const ulEl = document.getElementById("ul-el")
+ const deleteBtn = document.getElementById("delete-btn")
+ const saveBtn = document.getElementById("save-btn")
+ const tabs = [
+  {url: " https://www.linkedin.com/in/per-harald-borgen/"}
+ ]
 
-//  function saveInput() {
-//   alert("you have clicked the input button")
-//  }
+// get the leads from localStorage
+// store it in an variable, leadsFromLocalStorage
+//Log out the variable
 
- inputBtn.addEventListener('click', () => {
-  myLeads.push(inputEl.value)
-  renderLeads()
-  inputEl.value = ""
+const leadsFromLocalStorage = JSON.parse(localStorage.getItem("myLeads"))
+
+
+if(leadsFromLocalStorage){
+  myLeads = leadsFromLocalStorage
+  render(myLeads)
+}
+
+
+saveBtn.addEventListener('click', () => {
+  myLeads.push(tabs[0].url)
+  localStorage.setItem("myLeads", JSON.stringify(myLeads))
+  render(myLeads)
+
 })
 
 
-function renderLeads() {
+
+function render(leads) {
   //log out the items in the myleads array uusing a for loop
   
   /* create a variable, listItems, ot hold all the html for the list items
@@ -29,7 +45,6 @@ function renderLeads() {
       </a>
     </li>
     `
-
   }
 
   // // render the listitems inside the unordered list using ulel.innerHTML
@@ -37,3 +52,22 @@ function renderLeads() {
 
 
 }
+
+
+
+
+deleteBtn.addEventListener("dblclick", () => {
+  localStorage.clear()
+  myLeads = []
+  render(myLeads)
+})
+ 
+ inputBtn.addEventListener('click', () => {
+  myLeads.push(inputEl.value)
+  inputEl.value = ""
+  localStorage.setItem("myLeads", JSON.stringify(myLeads))
+  render(myLeads)
+
+})
+
+
